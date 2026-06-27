@@ -1,0 +1,45 @@
+#!name=Netflix_All_In_One
+#!desc=1 link duy nhat mo khoa toan bo Netflix - khong can tai khoan
+
+[General]
+bypass-tun = 0.0.0.0/32
+skip-proxy = 127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, *.lan
+ipv6 = true
+dns-server = system
+
+[Rule]
+DOMAIN-SUFFIX,netflix.com,DIRECT
+DOMAIN-SUFFIX,netflix.net,DIRECT
+DOMAIN-SUFFIX,nflxext.com,DIRECT
+DOMAIN-SUFFIX,nflximg.net,DIRECT
+DOMAIN-SUFFIX,nflxvideo.net,DIRECT
+DOMAIN-SUFFIX,nflxso.net,DIRECT
+
+[URL Rewrite]
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-Plan:premium_ultra"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-Max-Quality:2160p"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-HDR:enabled"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-DolbyAtmos:enabled"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-DolbyVision:enabled"
+(?<=api\.netflix\.com/v\d+/account/screens) $0 header="X-Screen-Limit:unlimited"
+(?<=api\.netflix\.com/v\d+/offline) $0 header="X-Offline-Enabled:true"
+(?<=api\.netflix\.com/v\d+/offline) $0 header="X-Download-Limit:unlimited"
+(?<=api\.netflix\.com/v\d+/geo) $0 header="X-Country-Code:US"
+(?<=api\.netflix\.com/v\d+/catalog) $0 header="X-Catalog-Access:global"
+(?<=api\.netflix\.com/v\d+/catalog) $0 header="X-Age-Rating-Bypass:true"
+(?<=api\.netflix\.com/v\d+/playback/settings) $0 header="X-Skip-Intro:enabled"
+(?<=api\.netflix\.com/v\d+/playback/settings) $0 header="X-Skip-Recap:enabled"
+(?<=api\.netflix\.com/v\d+/playback/settings) $0 header="X-Playback-Speed:enabled"
+(?<=api\.netflix\.com/v\d+/playback) $0 header="X-Widevine-License:permanent"
+(?<=api\.netflix\.com/v\d+/playback) $0 header="X-PlayReady-License:permanent"
+(?<=api\.netflix\.com/v\d+/subtitles) $0 header="X-All-Languages:en,vi,ko,ja,zh,es,fr,de,pt,ru,th"
+(?<=api\.netflix\.com/v\d+/audio) $0 header="X-All-Audio-Tracks:en,vi,ko,ja,zh,es,fr,de,pt,ru,th"
+
+[MITM]
+hostname = api.netflix.com, *.netflix.com, *.nflxext.com, *.nflxvideo.net, *.nflxso.net
+
+[Script]
+http-response ^https?://api\.netflix\.com/v\d+/account requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/TEN_GITHUB_CUA_BAN/shad/main/nf_account.js
+http-response ^https?://api\.netflix\.com/v\d+/catalog requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/TEN_GITHUB_CUA_BAN/shad/main/nf_catalog.js
+http-response ^https?://api\.netflix\.com/v\d+/playback requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/TEN_GITHUB_CUA_BAN/shad/main/nf_playback.js
+http-response ^https?://api\.netflix\.com/v\d+/geo requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/TEN_GITHUB_CUA_BAN/shad/main/nf_geo.js
