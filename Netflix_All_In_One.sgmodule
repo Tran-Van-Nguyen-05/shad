@@ -35,6 +35,20 @@ DOMAIN-SUFFIX,nflxso.net,DIRECT
 (?<=api\.netflix\.com/v\d+/subtitles) $0 header="X-All-Languages:en,vi,ko,ja,zh,es,fr,de,pt,ru,th"
 (?<=api\.netflix\.com/v\d+/audio) $0 header="X-All-Audio-Tracks:en,vi,ko,ja,zh,es,fr,de,pt,ru,th"
 
+# Chan trang yeu cau hoan tat dang ky
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Registration-Complete:true"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Account-Status:active"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Membership-Status:active"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Signup-Complete:true"
+(?<=api\.netflix\.com/v\d+/account) $0 header="X-Onboarding-Complete:true"
+
+# Chuyen huong trang dang ky sang trang chinh
+^https?://(www\.)?netflix\.com/signup https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/GetStarted https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/registration https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/complete https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/account/signup https://www.netflix.com/browse 302
+
 [MITM]
 hostname = api.netflix.com, *.netflix.com, *.nflxext.com, *.nflxvideo.net, *.nflxso.net
 
