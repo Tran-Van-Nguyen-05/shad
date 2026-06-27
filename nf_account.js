@@ -1,5 +1,7 @@
-// nf_account.js - Mo khoa goi Premium Ultra
+// nf_account.js - Bypass "Hoan tat dang ky tren web"
 let b = JSON.parse($response.body);
+
+// Ghi de toan bo thong tin tai khoan
 b.plan = {
   "planId": "premium_ultra_4k",
   "planName": "Premium Ultra",
@@ -16,25 +18,40 @@ b.plan = {
   "billingPeriod": "lifetime",
   "status": "active"
 };
+
 b.features = {
   "4k_uhd": true,
   "hdr10": true,
-  "hdr10plus": true,
   "dolby_vision": true,
   "dolby_atmos": true,
-  "spatial_audio": true,
   "download": true,
-  "offline_viewing": true,
   "multiple_screens": true,
   "profiles": 10,
-  "parental_controls": "disabled",
-  "maturity_rating": "all",
   "skip_intro": true,
-  "skip_recap": true,
-  "playback_speed": true,
-  "mobile_games": true,
-  "interactive_content": true
+  "playback_speed": true
 };
+
+// DAY LA DONG QUAN TRONG NHAT - DANH LUA APP RANG DA DANG KY XONG
+b.membershipStatus = "active";
+b.subscriptionStatus = "active";
+b.isPremium = true;
+b.isFreeTrial = false;
+b.paymentRequired = false;
+b.registrationComplete = true;
+b.accountSetupComplete = true;
+b.membershipComplete = true;
+b.isAccountComplete = true;
+b.signupComplete = true;
+b.onboardingComplete = true;
+b.requiresPayment = false;
+b.requiresRegistration = false;
+b.requiresSignup = false;
+b.isRegistered = true;
+b.isActivated = true;
+b.isVerified = true;
+b.accountStatus = "active";
+b.userStatus = "active";
+
 b.country = "US";
 b.region = "US";
 b.geolocation = {
@@ -42,9 +59,5 @@ b.geolocation = {
   "region": "GLOBAL",
   "bypass_geo": true
 };
-b.membershipStatus = "active";
-b.subscriptionStatus = "active";
-b.isPremium = true;
-b.isFreeTrial = false;
-b.paymentRequired = false;
+
 $done({body: JSON.stringify(b)});
