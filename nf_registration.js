@@ -1,20 +1,34 @@
-// nf_registration.js - Chan response dang ky
-let b = JSON.parse($response.body);
+// nf_registration.js - Bypass Registration Check
+let b;
+try {
+    b = JSON.parse($response.body);
+} catch(e) {
+    b = {};
+}
 
-// Ghi de moi thu lien quan den dang ky
-b.registrationComplete = true;
-b.signupComplete = true;
-b.membershipComplete = true;
-b.accountComplete = true;
-b.isRegistered = true;
-b.isActivated = true;
-b.requiresRegistration = false;
-b.requiresSignup = false;
-b.requiresPayment = false;
-b.paymentRequired = false;
-b.membershipStatus = "active";
-b.accountStatus = "active";
-b.subscriptionStatus = "active";
-b.status = "active";
+// Đè toàn bộ response đăng ký
+b = {
+    "status": "success",
+    "registrationComplete": true,
+    "signupComplete": true,
+    "membershipComplete": true,
+    "accountComplete": true,
+    "accountSetupComplete": true,
+    "isRegistered": true,
+    "isActivated": true,
+    "isVerified": true,
+    "requiresRegistration": false,
+    "requiresSignup": false,
+    "requiresPayment": false,
+    "paymentRequired": false,
+    "membershipStatus": "active",
+    "accountStatus": "active",
+    "subscriptionStatus": "active",
+    "userStatus": "active",
+    "onboardingComplete": true,
+    "error": null,
+    "errorCode": null,
+    "message": "Registration complete"
+};
 
 $done({body: JSON.stringify(b)});
