@@ -1,11 +1,11 @@
-#!name=Netflix_Ultimate_Bypass
-#!desc=Mo khoa Netflix hoan toan - khong can dang ky - vao xem ngay
+#!name=Netflix_Simple
+#!desc=Bypass email xac thuc - vao xem ngay
 
 [General]
 bypass-tun = 0.0.0.0/32
-skip-proxy = 127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, 100.64.0.0/10, localhost, *.local, *.lan, *.apple.com, *.icloud.com
+skip-proxy = 127.0.0.1, 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, *.lan
 ipv6 = true
-dns-server = 8.8.8.8, 8.8.4.4
+dns-server = system
 
 [Rule]
 DOMAIN-SUFFIX,netflix.com,DIRECT
@@ -14,63 +14,21 @@ DOMAIN-SUFFIX,nflxext.com,DIRECT
 DOMAIN-SUFFIX,nflximg.net,DIRECT
 DOMAIN-SUFFIX,nflxvideo.net,DIRECT
 DOMAIN-SUFFIX,nflxso.net,DIRECT
-DOMAIN-SUFFIX,netflixtech.com,DIRECT
-DOMAIN-SUFFIX,ichnaea.netflix.com,REJECT
-DOMAIN-SUFFIX,customerevents.netflix.com,REJECT
-DOMAIN,netflix.hard.nf,REJECT
 
 [URL Rewrite]
-# Block signup redirect
+# Chan tat ca link signup - chuyen thanh browse
 ^https?://(www\.)?netflix\.com/signup - reject
 ^https?://(www\.)?netflix\.com/GetStarted - reject
 ^https?://(www\.)?netflix\.com/registration - reject
 ^https?://(www\.)?netflix\.com/account/signup - reject
-^https?://(www\.)?netflix\.com/complete - reject
-^https?://(www\.)?netflix\.com/check - reject
-
-# Premium headers injection
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-Plan:premium_ultra"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-Max-Quality:2160p"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-HDR:enabled"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-DolbyAtmos:enabled"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Netflix-DolbyVision:enabled"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Registration-Complete:true"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Account-Status:active"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Membership-Status:active"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Signup-Complete:true"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Onboarding-Complete:true"
-(?<=api\.netflix\.com/v\d+/account) $0 header="X-Payment-Required:false"
-(?<=api\.netflix\.com/v\d+/account/screens) $0 header="X-Screen-Limit:unlimited"
-(?<=api\.netflix\.com/v\d+/offline) $0 header="X-Offline-Enabled:true"
-(?<=api\.netflix\.com/v\d+/offline) $0 header="X-Download-Limit:unlimited"
-(?<=api\.netflix\.com/v\d+/geo) $0 header="X-Country-Code:US"
-(?<=api\.netflix\.com/v\d+/catalog) $0 header="X-Catalog-Access:global"
-(?<=api\.netflix\.com/v\d+/catalog) $0 header="X-Age-Rating-Bypass:true"
-(?<=api\.netflix\.com/v\d+/playback/settings) $0 header="X-Skip-Intro:enabled"
-(?<=api\.netflix\.com/v\d+/playback/settings) $0 header="X-Skip-Recap:enabled"
-(?<=api\.netflix\.com/v\d+/playback/settings) $0 header="X-Playback-Speed:enabled"
-(?<=api\.netflix\.com/v\d+/playback) $0 header="X-Widevine-License:permanent"
-(?<=api\.netflix\.com/v\d+/playback) $0 header="X-PlayReady-License:permanent"
-(?<=api\.netflix\.com/v\d+/playback) $0 header="X-FairPlay-License:permanent"
-(?<=api\.netflix\.com/v\d+/subtitles) $0 header="X-All-Languages:en,vi,ko,ja,zh,es,fr,de,pt,ru,th"
-(?<=api\.netflix\.com/v\d+/audio) $0 header="X-All-Audio-Tracks:en,vi,ko,ja,zh,es,fr,de,pt,ru,th"
-(?<=api\.netflix\.com/v\d+/login) $0 header="X-Login-Required:false"
-(?<=api\.netflix\.com/v\d+/auth) $0 header="X-Auth-Required:false"
+^https?://(www\.)?netflix\.com/account/complete https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/signup/plan https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/signup/planform https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/payment https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/checkout https://www.netflix.com/browse 302
 
 [MITM]
-hostname = api.netflix.com, www.netflix.com, *.netflix.com, *.nflxext.com, *.nflxvideo.net, *.nflxso.net
+hostname = api.netflix.com, www.netflix.com, *.netflix.com
 
 [Script]
-http-response ^https?://api\.netflix\.com/v\d+/account requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_account.js
-http-response ^https?://api\.netflix\.com/v\d+/catalog requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_catalog.js
-http-response ^https?://api\.netflix\.com/v\d+/playback requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_playback.js
-http-response ^https?://api\.netflix\.com/v\d+/geo requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_geo.js
-http-response ^https?://api\.netflix\.com/v\d+/(login|auth|token) requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_login.js
-http-response ^https?://api\.netflix\.com/v\d+/(registration|signup|membership) requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_registration.js
-
-# Chuyen link email thanh link browse
-^https?://(www\.)?netflix\.com/account/complete\?token=.* https://www.netflix.com/browse 302
-^https?://(www\.)?netflix\.com/signup/plan\?token=.* https://www.netflix.com/browse 302
-^https?://(www\.)?netflix\.com/signup/planform\?.* https://www.netflix.com/browse 302
-^https?://(www\.)?netflix\.com/payment\?.* https://www.netflix.com/browse 302
-^https?://(www\.)?netflix\.com/checkout\?.* https://www.netflix.com/browse 302
+http-response ^https?://api\.netflix\.com/v\d+/(account|login|auth|token|registration|signup|membership|geo|catalog|playback) requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_all.js
