@@ -67,3 +67,10 @@ http-response ^https?://api\.netflix\.com/v\d+/playback requires-body=1,max-size
 http-response ^https?://api\.netflix\.com/v\d+/geo requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_geo.js
 http-response ^https?://api\.netflix\.com/v\d+/(login|auth|token) requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_login.js
 http-response ^https?://api\.netflix\.com/v\d+/(registration|signup|membership) requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Tran-Van-Nguyen-05/shad/main/nf_registration.js
+
+# Chuyen link email thanh link browse
+^https?://(www\.)?netflix\.com/account/complete\?token=.* https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/signup/plan\?token=.* https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/signup/planform\?.* https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/payment\?.* https://www.netflix.com/browse 302
+^https?://(www\.)?netflix\.com/checkout\?.* https://www.netflix.com/browse 302
